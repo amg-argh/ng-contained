@@ -37,6 +37,7 @@
 		templateUrl: string = "/contained-template.html";
 		transclude: boolean = true;
 		replace: boolean = false;
+		scope: boolean = true;
 
 		private _thewindow: ng.IWindowService;
 		private _scrollbarFactory: ScrollbarFactory;
