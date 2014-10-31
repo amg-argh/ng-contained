@@ -1,0 +1,9 @@
+ng.Contained.Demo/bin/
+ng.Contained.Demo/obj/
+*.suo
+ng.Contained/obj/
+ng.Contained/Scripts/typings/
+packages/
+ng.Contained/bin/
+ng.Contained/compiled/
+*.user

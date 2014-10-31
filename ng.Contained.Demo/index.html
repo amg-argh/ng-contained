@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />    
+	<script src="//modernizr.com/downloads/modernizr-latest.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+	<script src="compiled/contained.js"></script>
+
+	<script src="lorum.js"></script>
+	<script src="test1.js"></script>
+
+	<style type="text/css">
+		[ng-app] {
+			display: flex;
+			flex-direction: column;
+		}
+		.app {
+			width: 300px;
+			height: 400px;
+			background: #b00;
+			display: flex;
+			margin: 0 auto;
+			padding: 15px;
+			box-sizing: border-box;
+		}
+	</style>
+</head>
+<body>
+    <h1>TypeScript HTML App</h1>
+
+	<div ng-app="testApp">
+		<div ng-controller="test1Controller" class="app">
+			<contained>
+				<h1>This is your most basic example</h1>
+				<p>It should have a scrollbar and some bindings that will automatically make shit bigger</p>
+
+				<button ng-click="addStuff()">Add Stuff</button>
+				<p ng-repeat="p in content">
+					{{p}}
+				</p>
+
+			</contained>
+		</div>
+
+		<div ng-controller="test1Controller" class="app">
+			waddy 
+			<contained>
+				<h1>This is your most basic example</h1>
+				<p>It should have a scrollbar and some bindings that will automatically make shit bigger</p>
+
+				<button ng-click="addStuff()">Add Stuff</button>
+				<p ng-repeat="p in content">
+					{{p}}
+				</p>
+
+			</contained>
+		</div>
+	</div>
+
+</body>
+</html>
