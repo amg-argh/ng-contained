@@ -7,6 +7,11 @@
 	margin: 0;
 }
 
+p {
+	margin: 0;
+	padding: 10px;
+}
+
 .contained-main{
 	width: 100%;
 	height: 100%;

@@ -25,7 +25,8 @@
 		contentHeight: number;
 		maxPosition: number;
 
-		scrollHandlers: IScrollHandler[]
+		scrollHandlers: IScrollHandler[];
+		plugins: IContainedPlugin[];
 
 		position: number;
 	}
@@ -41,10 +42,12 @@
 
 		private _thewindow: ng.IWindowService;
 		private _scrollbarFactory: ScrollbarFactory;
+		private _offsetFactory: OffsetFactory;
 
-		constructor(private $window: ng.IWindowService, sbf: ScrollbarFactory) {
+		constructor(private $window: ng.IWindowService, sbf: ScrollbarFactory, offsetFactory:OffsetFactory) {
 			this._thewindow = $window;
 			this._scrollbarFactory = sbf;
+			this._offsetFactory = offsetFactory;
 		}
 
 		link = (scope: IContainedELScope, element: JQuery, attrs: ng.IAttributes) => {
@@ -76,6 +79,8 @@
 			scope.scrollHandlers.push(new ScrollbarDragScrollHandler(scope.scrollbarHandleEl, this.$window, scrollHandlerCallback));
 			scope.scrollHandlers.push(new ScrollbarClickScrollHandler(scope.scrollbarEl, this.$window, scrollHandlerCallback));
 
+			scope.plugins = [];
+			scope.plugins.push(new Sticky(scope.contentEl, this._offsetFactory));
 
 			scope.$on("$destroy", () => {
 				scope.mutationObserver.disconnect();
@@ -141,9 +146,16 @@
 			else if (tempPosition > 0) {
 				tempPosition = 0;
 			}
-			
+
+			if (scope.position === tempPosition)
+				return;
+
 			scope.position = tempPosition;
 			this.updateContainerTransform(scope);
+
+			scope.plugins.forEach((plugin: IContainedPlugin) => {
+				plugin.test(scope);
+			});
 		}
 
 		updateContainerTransform(scope: IContainedELScope) {
@@ -165,6 +177,6 @@
 	}
 }
 
-contained.directive(Contained.ContainedEl.DirectiveId, ['$window', 'containedScrollbarFactory', ($window, containedScrollbarFactory) => {
-	return new Contained.ContainedEl($window, containedScrollbarFactory);
+contained.directive(Contained.ContainedEl.DirectiveId, ['$window', 'containedScrollbarFactory', 'offsetFactory', ($window, containedScrollbarFactory, offsetFactory) => {
+	return new Contained.ContainedEl($window, containedScrollbarFactory, offsetFactory);
 }]);

@@ -23,6 +23,37 @@
 			}
 			return result;
 		}
+
+		getAbsoluteOffset(elem: HTMLElement): Offset {
+			var bodyRect: ClientRect = document.body.getBoundingClientRect();
+			var elemRect: ClientRect = elem.getBoundingClientRect();
+
+			return {
+				left: bodyRect.left + elemRect.left,
+				top: bodyRect.top + elemRect.top
+			}			
+		}
+
+		getElementCrap(elem: HTMLElement): Offset {
+			var dropUnit = (value) => {
+				return parseInt(value.replace(/[^-\d\.]/g, ''));
+			};
+			var style: CSSStyleDeclaration = window.getComputedStyle(elem);
+
+			var hoz = dropUnit(style.borderLeftWidth) + dropUnit(style.borderRightWidth) +
+				dropUnit(style.paddingLeft) + dropUnit(style.paddingRight) +
+				dropUnit(style.marginLeft) + dropUnit(style.marginRight);
+
+			var vert = dropUnit(style.borderTopWidth) + dropUnit(style.borderBottomWidth) +
+				dropUnit(style.paddingTop) + dropUnit(style.paddingBottom) +
+				dropUnit(style.marginTop) + dropUnit(style.marginBottom);
+
+			return {
+				left: hoz,
+				top: vert
+			};
+
+		}
 	}
 }
 
