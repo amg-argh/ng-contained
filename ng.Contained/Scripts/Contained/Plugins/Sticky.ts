@@ -47,7 +47,7 @@
 		}
 
 		test(scope: IContainedELScope): void {			
-			if (!this.stickies)
+			if (!this.stickies || this.stickies.length === 0)
 				return;
 
 			//just for now only deal with the first sticky; not sure if we should stack them

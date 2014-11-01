@@ -59,6 +59,8 @@
 			scope.wrapperEl			= <HTMLDivElement>el.querySelector(".contained-wrapped");
 			scope.contentEl			= <HTMLDivElement>el.querySelector(".contained-container");
 
+			scope.el.classList.add("contained-main");
+
 			scope.observes = {childList: true, attributes: true, characterData: true, subtree: true};
 			scope.mutationObserver = new MutationObserver((arr: MutationRecord[], observer: MutationObserver) => {
 				this.recalculate(scope);
@@ -161,8 +163,9 @@
 		updateContainerTransform(scope: IContainedELScope) {
 			scope.mutationObserver.disconnect();
 
-			var translation = "translate3d(0, " + scope.position + "px, 0)";
-			scope.contentEl.style.transform = translation;
+			//var translation = "translate3d(0, " + scope.position + "px, 0)";
+			//scope.contentEl.style.transform = translation;
+			scope.contentEl.style.top = scope.position + "px";
 
 			this._scrollbarFactory.renderScrollbar(
 				scope.scrollbarHandleEl,
