@@ -68,10 +68,13 @@
 			}
 
 			var removePlaceholder = () => {
-				if (sticky.placeholder) {
-					sticky.placeholder.parentElement.removeChild(sticky.placeholder);
-					sticky.placeholder = null;
+				//it seems to be inconsistent; for now just cur all stuck-placeholder
+				var allPlaceholders: NodeList = this.container.querySelectorAll(".stuck-placeholder");
+				for (var i: number = 0; i < allPlaceholders.length; i++) {
+					var ph = allPlaceholders[i];
+					ph.parentNode.removeChild(ph);
 				}
+				sticky.placeholder = null;
 			};
 
 			scope.mutationObserver.disconnect();
