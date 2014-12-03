@@ -23,6 +23,8 @@
     <Content Include="contained-template.html" />
     <Content Include="Demos\resources\lorum.js" />
     <Content Include="Demos\resources\test1.js" />
+    <Content Include="Demos\resources\test2.js" />
+    <Content Include="Demos\waypoint.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +47,6 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\ashleys\css.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\modernizr\modernizr.d.ts" />
   </ItemGroup>
@@ -58,6 +59,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

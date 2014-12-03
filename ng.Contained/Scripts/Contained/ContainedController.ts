@@ -83,6 +83,7 @@
 
 			scope.plugins = [];
 			scope.plugins.push(new Sticky(scope.contentEl, this._offsetFactory));
+			scope.plugins.push(new Waypoint(scope.contentEl, this._offsetFactory));
 
 			scope.$on("$destroy", () => {
 				scope.mutationObserver.disconnect();
@@ -106,6 +107,10 @@
 				scope.contentHeight,
 				scope.position
 				);
+
+			scope.plugins.forEach((plugin: IContainedPlugin) => {
+				plugin.updatePositionInformation();
+			});
 
 			scope.mutationObserver.observe(scope.el, scope.observes);
 		}

@@ -46,6 +46,10 @@
 
 		}
 
+		updatePositionInformation(): void {
+
+		}
+
 		test(scope: IContainedELScope): void {			
 			if (!this.stickies || this.stickies.length === 0)
 				return;

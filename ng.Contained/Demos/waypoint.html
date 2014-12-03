@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>TypeScript HTML App</title>
+	<link rel="stylesheet" href="/demos/resources/app.css" type="text/css" />
+	<script src="//modernizr.com/downloads/modernizr-latest.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+	<script src="/compiled/contained.js"></script>
+
+	<script src="/demos/resources/test2.js"></script>
+
+	<style type="text/css">
+		[ng-app] {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.app {
+			width: 300px;
+			height: 400px;
+			background: #b00;
+			display: flex;
+			margin: 0 auto;
+			box-sizing: border-box;
+		}
+	</style>
+</head>
+<body>
+	<div ng-app="testApp">
+		<div ng-controller="test2Controller" class="app">
+			<div contained>
+				<h1>This is your most basic example</h1>
+				<p snoop style="background: #b00; border-bottom: solid 1px black;">Current waypoint: {{currentWaypoint}}</p>
+				
+				<p waypoint="one">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales a odio ut lacinia. Nunc et neque quis est aliquet ornare. Etiam sed viverra enim. Sed sed nisl congue, auctor erat non, egestas lectus. Sed sed quam justo. Cras feugiat rhoncus odio non finibus. Aliquam varius enim eu erat gravida mollis a vel leo.</p>
+				<p waypoint="two">Donec suscipit massa at sapien vulputate consectetur. Nunc sagittis hendrerit semper. Sed tempor, lacus finibus finibus facilisis, enim augue convallis mi, at gravida metus ante sed leo. Quisque lectus sapien, euismod vel quam nec, maximus blandit erat. Etiam vestibulum non mi mattis mollis. Sed interdum elit in rutrum varius. Vivamus dictum augue at ligula imperdiet laoreet. Suspendisse vestibulum vitae eros dapibus aliquet. In in odio dapibus, ullamcorper libero eu, ornare augue. Etiam at dolor enim. Integer faucibus diam vel augue pharetra, id lacinia est euismod. Suspendisse potenti. Morbi pharetra lorem id erat auctor dictum. Cras nec ante eu mi posuere efficitur eu et massa.</p>
+				<p waypoint="three">Nullam sollicitudin ornare enim id mattis. Suspendisse maximus nisl nec mi hendrerit, ac accumsan justo suscipit. Proin aliquet finibus purus nec rhoncus. Vestibulum dignissim nibh convallis lacus vehicula, sed pulvinar ante fermentum. Donec felis ligula, porttitor viverra porta porta, bibendum in nunc. Donec eget sapien pharetra neque interdum sodales quis sit amet orci. Curabitur accumsan diam ut augue faucibus tempus. Sed ut dui mi. Donec pellentesque ipsum in mattis posuere. Sed quis felis turpis.</p>
+				<p waypoint="four">Proin tortor tortor, fringilla sed tempus et, ultrices quis mauris. In non tristique diam, et ullamcorper nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin dapibus in neque ac vehicula. Nunc pellentesque malesuada scelerisque. Nunc ac mauris in est porttitor dapibus. Nulla vitae condimentum sapien. Nunc ut ultrices mauris, eget iaculis lectus. Maecenas eu tincidunt libero. Nunc magna dolor, faucibus vitae arcu at, dictum luctus odio. Morbi elementum lacus eget facilisis gravida. Praesent sit amet risus felis. In hac habitasse platea dictumst. Phasellus vel gravida sem.</p>
+				<p waypoint="five">Quisque suscipit pellentesque luctus. Vivamus ac tellus vel orci congue efficitur a in mi. Fusce sagittis ac justo et faucibus. Etiam maximus nulla vitae metus eleifend tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean tempor lobortis odio non laoreet. Ut eget venenatis metus, id lacinia nibh. Aenean egestas nisl et convallis hendrerit. Aenean nec pharetra lacus, id pharetra nisi. Phasellus elementum lorem ante, suscipit rutrum enim molestie in. Etiam justo urna, ultrices in turpis vel, vehicula maximus eros. Ut ultrices quis risus eu accumsan. Donec porta egestas nibh, vitae iaculis libero sagittis ut. Nam felis eros, feugiat nec orci ut, bibendum auctor nisl. Nam id arcu ut ante tempor rutrum et eu quam.</p>
+			</div>
+		</div>
+		
+	</div>
+
+</body>
+</html>
