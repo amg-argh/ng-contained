@@ -14,12 +14,18 @@
 	export class Sticky implements IContainedPlugin {
 		private stickies: StickyElement[];
 		private offsetFactory: OffsetFactory;
+		private container: HTMLElement;
 
 		constructor(container: HTMLElement, offsetFactory: OffsetFactory) {
 			this.offsetFactory = offsetFactory;
+			this.container = container;		
 
+			this.updatePositionInformation();	
+		}
+
+		updatePositionInformation(): void {
 			this.stickies = [];
-			var stickyComps:NodeList = container.querySelectorAll("[snoop]"); //<-- because it's sticky iky iky
+			var stickyComps: NodeList = this.container.querySelectorAll("[snoop]"); //<-- because it's sticky iky iky
 
 			if (stickyComps.length === 0) {
 				return;
@@ -27,7 +33,7 @@
 
 			for (var i: number = 0; i < stickyComps.length; i++) {
 				var el: HTMLElement = <HTMLElement>stickyComps[i];
-				var offset: Offset = offsetFactory.getOffset(el);
+				var offset: Offset = this.offsetFactory.getOffset(el);
 
 				this.stickies.push({
 					element: el,
@@ -45,11 +51,7 @@
 		destroy(): void {
 
 		}
-
-		updatePositionInformation(): void {
-
-		}
-
+		
 		test(scope: IContainedELScope): void {			
 			if (!this.stickies || this.stickies.length === 0)
 				return;
@@ -72,6 +74,8 @@
 				}
 			};
 
+			scope.mutationObserver.disconnect();
+
 			sticky.stuck = stuck;
 			if (stuck) {
 				removePlaceholder();
@@ -82,6 +86,8 @@
 				removePlaceholder();
 				this.unstickIt(sticky);
 			}
+
+			scope.mutationObserver.observe(scope.el, scope.observes);
 
 		}
 

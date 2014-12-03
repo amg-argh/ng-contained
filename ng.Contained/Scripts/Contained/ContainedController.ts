@@ -189,6 +189,6 @@
 	}
 }
 
-contained.directive(Contained.ContainedEl.DirectiveId, ['$window', 'containedScrollbarFactory', 'offsetFactory', ($window, containedScrollbarFactory, offsetFactory) => {
+contained.directive(Contained.ContainedEl.DirectiveId, ['$window', 'containedScrollbarFactory', 'containedOffsetFactory', ($window, containedScrollbarFactory, offsetFactory) => {
 	return new Contained.ContainedEl($window, containedScrollbarFactory, offsetFactory);
 }]);

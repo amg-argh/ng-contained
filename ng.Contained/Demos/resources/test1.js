@@ -1,6 +1,6 @@
 ﻿var testApp = angular.module("testApp",["contained"])
 	
-testApp.controller("test1Controller", ["$scope", "offsetFactory", function($scope, offsetFactory){
+testApp.controller("test1Controller", ["$scope", "containedOffsetFactory", function($scope, offsetFactory){
 	$scope.content = [];
 	
 		var lo = new Lorem();

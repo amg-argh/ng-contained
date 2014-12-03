@@ -4,7 +4,7 @@
 		left: number;
 	}
 	export class OffsetFactory{
-		static serviceId = "offsetFactory";
+		static serviceId = "containedOffsetFactory";
 
 		constructor() {
 
