@@ -151,7 +151,10 @@
 		setAbsolutePagePosition = (scope: IContainedELScope, position: number) => {
 			var tempPosition: number = position;
 
-			if (tempPosition < scope.maxPosition) {
+			if (scope.contentHeight <= scope.wrapperHeight) {
+				tempPosition = 0;
+			}
+			else if (tempPosition < scope.maxPosition) {
 				tempPosition = scope.maxPosition;
 			}
 			else if (tempPosition > 0) {
