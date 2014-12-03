@@ -90,6 +90,10 @@
 				this._thewindow.removeEventListener("resize", onResize);
 			});
 
+			scope.$on("contained-set-position", (e:any, position: number, animate: boolean) => {
+				this.setAbsolutePagePosition(scope, position);
+			});
+
 			//now that we're all configed runnnnnnnnnn
 			this.recalculate(scope);
 		}
