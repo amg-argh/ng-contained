@@ -14,7 +14,6 @@
 		private _container: HTMLElement;
 		private _offsetFactory: OffsetFactory;
 		private _waypoints: WaypointElement[];
-		private _lastPosition: number = 0;
 
 		constructor(container: HTMLElement, offsetFactory: OffsetFactory, scope:IContainedELScope) {
 			this._offsetFactory = offsetFactory;
@@ -34,7 +33,7 @@
 
 				this._waypoints.push({
 					element: el,
-					start: Math.abs(offset.top),
+					start: offset.top - scope.position,
 					height: el.clientHeight,
 					inView: false,
 					param: el.getAttribute("waypoint")
@@ -47,10 +46,7 @@
 		}
 
 		test(scope: IContainedELScope): void {
-			var delta: number = scope.position - this._lastPosition;
-			this._lastPosition = scope.position;
-
-			var isDown: boolean = delta < 0;
+			
 			var offset: number = Math.abs(scope.position);
 
 			var quarter: number = scope.wrapperHeight / 4;
@@ -58,28 +54,19 @@
 
 			var mostActive: WaypointElement = null;
 
-			if (isDown) {
-				for (var i: number = 0; i < this._waypoints.length; i++) {
-					var waypoint: WaypointElement = this._waypoints[i];
-					waypoint.inView = (i == 0) || (waypoint.start <= upperQuarter);
-				}
-
-				for (var i: number = this._waypoints.length - 1; i >= 0; i--) {
-					var waypoint: WaypointElement = this._waypoints[i];
-					if (waypoint.inView) {
-						mostActive = waypoint;
-						break;
-					}
-				}
+			for (var i: number = 0; i < this._waypoints.length; i++) {
+				var waypoint: WaypointElement = this._waypoints[i];
+				waypoint.inView = (i == 0) || (waypoint.start <= upperQuarter);
 			}
 
-
-
-			/*this._waypoints.forEach((waypoint: WaypointElement) => {
-				waypoint.inView = (waypoint.start >= offset) && (waypoint.start < offset);
-			});*/
+			for (var i: number = this._waypoints.length - 1; i >= 0; i--) {
+				var waypoint: WaypointElement = this._waypoints[i];
+				if (waypoint.inView) {
+					mostActive = waypoint;
+					break;
+				}
+			}
 			
-
 			if (mostActive !== null && mostActive !== this._currentlyActive) {
 				this._currentlyActive = mostActive;
 
@@ -88,16 +75,6 @@
 			}
 
 
-		}
-
-		intersects(containerTop: number, containerBottom: number, testTop: number, testBottom: number): boolean {
-			if (testTop <= containerTop && testBottom >= containerTop)
-				return true;
-
-			if (testTop >= containerTop && testTop <= containerBottom)
-				return true;
-
-			return false;
 		}
 
 	}
