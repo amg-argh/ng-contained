@@ -96,7 +96,10 @@
 
 			scope.$on("contained-scroll-to-element", (e: any, element: HTMLElement, animate: boolean) => {
 				var offset: Offset = this._offsetFactory.getOffset(element);
-				var position: number = 0 - (offset.top - scope.position);
+				var topCompensation: number = this.getTopCompensation(scope);
+
+				var position: number = 0 - (offset.top - scope.position) + topCompensation;
+
 
 				this.setAbsolutePagePosition(scope, position);
 			});
@@ -174,9 +177,20 @@
 			scope.position = tempPosition;
 			this.updateContainerTransform(scope);
 
+			var totalCompensation: number = this.getTopCompensation(scope);
+
 			scope.plugins.forEach((plugin: IContainedPlugin) => {
-				plugin.test(scope);
+				plugin.test(scope, totalCompensation);
 			});
+		}
+
+		getTopCompensation(scope: IContainedELScope): number {
+			var totalCompensation: number = 0;
+			scope.plugins.forEach((plugin: IContainedPlugin) => {
+				totalCompensation += plugin.getTopCompensation(scope);
+			});
+
+			return totalCompensation;
 		}
 
 		updateContainerTransform(scope: IContainedELScope) {

@@ -41,16 +41,20 @@
 			}
 		}
 
+		getTopCompensation(scope: IContainedELScope): number {
+			return 0;
+		}
+
 		destroy(): void {
 
 		}
 
-		test(scope: IContainedELScope): void {
+		test(scope: IContainedELScope, compensation: number): void {
 			
 			var offset: number = Math.abs(scope.position);
 
 			var quarter: number = scope.wrapperHeight / 4;
-			var upperQuarter: number = offset + quarter;
+			var upperQuarter: number = offset + quarter + compensation;
 
 			var mostActive: WaypointElement = null;
 

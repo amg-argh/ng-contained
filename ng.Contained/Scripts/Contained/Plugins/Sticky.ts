@@ -69,11 +69,21 @@
 			}
 		}
 
+		getTopCompensation(scope: IContainedELScope): number {
+			var totalCompensation:number = 0;
+			this.stickies.forEach((sticky: StickyElement) => {
+				if (sticky.stuck) {
+					totalCompensation += sticky.height;
+				}
+			});
+			return totalCompensation;
+		}
+
 		destroy(): void {
 
 		}
 		
-		test(scope: IContainedELScope): void {			
+		test(scope: IContainedELScope, compensation: number): void {			
 			if (!this.stickies || this.stickies.length === 0)
 				return;
 
