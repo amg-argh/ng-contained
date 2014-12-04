@@ -38,7 +38,7 @@
 		templateUrl: string = "/contained-template.html";
 		transclude: boolean = true;
 		replace: boolean = false;
-		scope: boolean = true;
+		scope: any = {};
 
 		private _thewindow: ng.IWindowService;
 		private _scrollbarFactory: ScrollbarFactory;
@@ -91,6 +91,13 @@
 			});
 
 			scope.$on("contained-set-position", (e:any, position: number, animate: boolean) => {
+				this.setAbsolutePagePosition(scope, position);
+			});
+
+			scope.$on("contained-scroll-to-element", (e: any, element: HTMLElement, animate: boolean) => {
+				var offset: Offset = this._offsetFactory.getOffset(element);
+				var position: number = 0 - (offset.top - scope.position);
+
 				this.setAbsolutePagePosition(scope, position);
 			});
 
