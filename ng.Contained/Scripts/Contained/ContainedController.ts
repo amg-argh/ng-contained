@@ -82,8 +82,8 @@
 			scope.scrollHandlers.push(new ScrollbarClickScrollHandler(scope.scrollbarEl, this.$window, scrollHandlerCallback));
 
 			scope.plugins = [];
-			scope.plugins.push(new Sticky(scope.contentEl, this._offsetFactory));
-			scope.plugins.push(new Waypoint(scope.contentEl, this._offsetFactory));
+			scope.plugins.push(new Sticky(scope.contentEl, this._offsetFactory, scope));
+			scope.plugins.push(new Waypoint(scope.contentEl, this._offsetFactory, scope));
 
 			scope.$on("$destroy", () => {
 				scope.mutationObserver.disconnect();
@@ -113,7 +113,7 @@
 				);
 
 			scope.plugins.forEach((plugin: IContainedPlugin) => {
-				plugin.updatePositionInformation();
+				plugin.updatePositionInformation(scope);
 			});
 
 			scope.mutationObserver.observe(scope.el, scope.observes);

@@ -3,7 +3,7 @@
 	export interface WaypointElement {
 		element: HTMLElement;
 		start: number;
-		end: number;
+		height: number;
 		inView: boolean;
 		param: string;
 	}
@@ -14,14 +14,15 @@
 		private _container: HTMLElement;
 		private _offsetFactory: OffsetFactory;
 		private _waypoints: WaypointElement[];
+		private _lastPosition: number = 0;
 
-		constructor(container: HTMLElement, offsetFactory: OffsetFactory) {
+		constructor(container: HTMLElement, offsetFactory: OffsetFactory, scope:IContainedELScope) {
 			this._offsetFactory = offsetFactory;
 			this._container = container;
-			this.updatePositionInformation();
+			this.updatePositionInformation(scope);
 		}
 
-		updatePositionInformation(): void {
+		updatePositionInformation(scope: IContainedELScope): void {
 			this._waypoints = [];
 			var waypoints: NodeList = this._container.querySelectorAll("[waypoint]");
 			if (waypoints.length === 0)
@@ -33,8 +34,8 @@
 
 				this._waypoints.push({
 					element: el,
-					start: offset.top,
-					end: offset.top + el.clientHeight,
+					start: Math.abs(offset.top),
+					height: el.clientHeight,
 					inView: false,
 					param: el.getAttribute("waypoint")
 				});
@@ -46,40 +47,44 @@
 		}
 
 		test(scope: IContainedELScope): void {
+			var delta: number = scope.position - this._lastPosition;
+			this._lastPosition = scope.position;
+
+			var isDown: boolean = delta < 0;
 			var offset: number = Math.abs(scope.position);
-			var boundsStart: number = offset;
-			var boundsEnd: number = boundsStart + scope.wrapperHeight;
-			var boundsEndHalf: number = boundsStart + (scope.wrapperHeight / 2);
 
-			this._waypoints.forEach((waypoint: WaypointElement) => {
-				waypoint.inView = this.intersects(boundsStart, boundsEnd, waypoint.start, waypoint.end);
-			});
+			var quarter: number = scope.wrapperHeight / 4;
+			var upperQuarter: number = offset + quarter;
 
-			var inView: WaypointElement[] = this._waypoints.filter((waypoint: WaypointElement) => {
-				return waypoint.inView;
-			});
+			var mostActive: WaypointElement = null;
 
-			if (inView.length === 0) {
-				return;
-			}
+			if (isDown) {
+				for (var i: number = 0; i < this._waypoints.length; i++) {
+					var waypoint: WaypointElement = this._waypoints[i];
+					waypoint.inView = (i == 0) || (waypoint.start <= upperQuarter);
+				}
 
-			var mostActive: WaypointElement = inView[0];
-			for (var i: number = inView.length - 1; i >= 0; i--) {
-				var waypoint: WaypointElement = inView[i];
-
-				var startInHalfView: boolean = (waypoint.start >= boundsStart) && (waypoint.start <= boundsEndHalf);
-				if (startInHalfView) {
-					mostActive = waypoint;
-					break;
+				for (var i: number = this._waypoints.length - 1; i >= 0; i--) {
+					var waypoint: WaypointElement = this._waypoints[i];
+					if (waypoint.inView) {
+						mostActive = waypoint;
+						break;
+					}
 				}
 			}
 
-			if (mostActive !== this._currentlyActive) {
+
+
+			/*this._waypoints.forEach((waypoint: WaypointElement) => {
+				waypoint.inView = (waypoint.start >= offset) && (waypoint.start < offset);
+			});*/
+			
+
+			if (mostActive !== null && mostActive !== this._currentlyActive) {
 				this._currentlyActive = mostActive;
 
 				scope.$broadcast("waypoint", mostActive.param);
 				scope.$emit("waypoint", mostActive.param);
-
 			}
 
 

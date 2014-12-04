@@ -12,19 +12,23 @@
 	}
 
 	export class Sticky implements IContainedPlugin {
-		private stickies: StickyElement[];
+		private stickies: StickyElement[] = null;
 		private offsetFactory: OffsetFactory;
 		private container: HTMLElement;
 
-		constructor(container: HTMLElement, offsetFactory: OffsetFactory) {
+		constructor(container: HTMLElement, offsetFactory: OffsetFactory, scope:IContainedELScope) {
 			this.offsetFactory = offsetFactory;
 			this.container = container;		
 
-			this.updatePositionInformation();	
+			this.updatePositionInformation(scope);	
 		}
 
-		updatePositionInformation(): void {
-			this.stickies = [];
+		updatePositionInformation(scope: IContainedELScope): void {
+
+			if (this.stickies === null) {
+				this.stickies = [];
+			}
+
 			var stickyComps: NodeList = this.container.querySelectorAll("[snoop]"); //<-- because it's sticky iky iky
 
 			if (stickyComps.length === 0) {
@@ -33,18 +37,35 @@
 
 			for (var i: number = 0; i < stickyComps.length; i++) {
 				var el: HTMLElement = <HTMLElement>stickyComps[i];
-				var offset: Offset = this.offsetFactory.getOffset(el);
+				var stickyEl:StickyElement = null;
 
-				this.stickies.push({
-					element: el,
-					start: offset.top,
-					height: el.clientHeight,
-					width: el.clientWidth,
-					placeholder: null,
-					stuck: false,
-					positionSelf: true,
-					usePlaceholder: true
+				var matchingStickies = this.stickies.filter((st: StickyElement) => {
+					return st.element == el;
 				});
+
+				if (matchingStickies.length > 0) {
+					stickyEl = matchingStickies[0];
+				}
+				else {
+					stickyEl = {
+						element: el,
+						start: 0,
+						height: 0,
+						width: 0,
+						placeholder: null,
+						stuck: false,
+						positionSelf: true,
+						usePlaceholder: true
+					};
+					this.stickies.push(stickyEl);
+				}
+
+				var testEl: HTMLElement = stickyEl.stuck ? stickyEl.placeholder : stickyEl.element;
+				var offset: Offset = this.offsetFactory.getOffset(testEl);
+
+				stickyEl.start = offset.top + Math.abs(scope.position);
+				stickyEl.height = testEl.clientHeight;
+				stickyEl.width = testEl.clientWidth;
 			}
 		}
 

@@ -2,6 +2,6 @@
 	export interface IContainedPlugin {
 		destroy(): void;
 		test(scope: IContainedELScope) : void;
-		updatePositionInformation(): void;
+		updatePositionInformation(scope: IContainedELScope): void;
 	}
 }  
