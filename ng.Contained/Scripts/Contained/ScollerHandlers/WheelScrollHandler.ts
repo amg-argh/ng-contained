@@ -23,6 +23,7 @@
 		}
 
 		onMouseWheel(evt: MouseWheelEvent): void {			
+			evt.stopPropagation();
 			var delta = evt.wheelDelta ? evt.wheelDelta : (evt.detail * -120);
 			/////////////////////////////////////////////// FIREFOX     ^^^^
 
