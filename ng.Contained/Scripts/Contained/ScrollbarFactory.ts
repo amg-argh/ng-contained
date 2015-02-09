@@ -34,6 +34,7 @@
 			//to WebKitCSSMatrix and MSCSSMatrix
 
 			var translation = "translate3d(0, " + offsetInPx + "px, 0)";
+			scrollbarHandle.style["webkitTransform"] = translation;
 			scrollbarHandle.style.transform = translation;
 		}
 	}
