@@ -7,3 +7,5 @@ packages/
 ng.Contained/bin/
 ng.Contained/compiled/
 *.user
+.idea
+ng.Contained/Scripts/*.js

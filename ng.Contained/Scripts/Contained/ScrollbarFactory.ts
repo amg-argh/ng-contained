@@ -1,9 +1,9 @@
-﻿module Contained {
+﻿/// <reference path="reference.ts" />
+module Contained {
 	export class ScrollbarFactory {
 		static serviceId = "containedScrollbarFactory";
 
 		constructor() {
-
 		}
 
 		renderScrollbar(scrollbarHandle: HTMLElement, visibleHeight: number, scrollHeight: number, offset: number): void {
@@ -12,7 +12,8 @@
 				scrollbarHandle.style.display = "none";
 				return;
 			}
-						
+
+
 			var scrollBarRatio = visibleHeight / scrollHeight;
 			var scrollBarSizePx = Math.round(visibleHeight * scrollBarRatio);
 
@@ -25,9 +26,6 @@
 
 
 			//use 3d transformations for positioning the scrollbar
-			if (!Modernizr.csstransforms3d) {
-				throw "Soz, no current support for browsers with no 3d transformations";
-			}
 
 			//Let's cheating for now; chuck it against the css rather than creating a matrix based on the
 			//current transformation state. Firefox still doesn't appear to have a MozCSSMatrix; similar

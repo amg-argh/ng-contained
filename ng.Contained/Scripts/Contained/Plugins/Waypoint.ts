@@ -1,4 +1,6 @@
-﻿module Contained {
+﻿/// <reference path="../reference.ts" />
+
+module Contained {
 
 	export interface WaypointElement {
 		element: HTMLElement;
@@ -6,7 +8,9 @@
 		height: number;
 		inView: boolean;
 		param: string;
+
 	}
+
 
 	export class Waypoint implements IContainedPlugin {
 

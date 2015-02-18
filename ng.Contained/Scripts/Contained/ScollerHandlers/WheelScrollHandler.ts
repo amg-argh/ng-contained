@@ -1,12 +1,15 @@
-﻿module Contained {
+﻿/// <reference path="../reference.ts" />
+module Contained {
 	export class WheelScrollHandler implements IScrollHandler {
 
-		private _eventName: string;
+
+        private _eventName: string;
 		private _elem: HTMLElement;
 		private _$window: ng.IWindowService;
 		private _setPositionCallback: SetPositionEvent;
 
 		private _onMouseWheelBound: any;
+
 
 		constructor(elem: HTMLElement, $window: ng.IWindowService, setPositionCallback: SetPositionEvent) {
 			this._elem = elem;
@@ -30,8 +33,6 @@
 			var finalDelta = delta / 4;
 			this._setPositionCallback({ relative: finalDelta });
 		}
-
-
 
 	}
 } 

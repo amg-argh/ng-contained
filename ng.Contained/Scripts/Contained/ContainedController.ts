@@ -1,4 +1,5 @@
-﻿module Contained {
+﻿/// <reference path="reference.ts" />
+module Contained {
 
 
 	export interface SetPositionEventArgs {
@@ -35,7 +36,7 @@
 		static DirectiveId: string = "contained";
 
 		restrict: string = "A";
-		templateUrl: string = "/contained-template.html";
+		templateUrl: string = "../contained-template.html";
 		transclude: boolean = true;
 		replace: boolean = false;
 		scope: any = {};
@@ -80,6 +81,8 @@
 			scope.scrollHandlers.push(new WheelScrollHandler(scope.wrapperEl, this.$window, scrollHandlerCallback));
 			scope.scrollHandlers.push(new ScrollbarDragScrollHandler(scope.scrollbarHandleEl, this.$window, scrollHandlerCallback));
 			scope.scrollHandlers.push(new ScrollbarClickScrollHandler(scope.scrollbarEl, this.$window, scrollHandlerCallback));
+            scope.scrollHandlers.push(new TouchScrollHandler(scope.wrapperEl, this.$window, scrollHandlerCallback));
+
 
 			scope.plugins = [];
 			scope.plugins.push(new Sticky(scope.contentEl, this._offsetFactory, scope));

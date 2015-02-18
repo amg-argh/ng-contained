@@ -1,4 +1,5 @@
-﻿module Contained {
+﻿/// <reference path="reference.ts" />
+module Contained {
 	export class Offset {
 		top: number;
 		left: number;
@@ -14,7 +15,6 @@
 			var result: Offset = { left: 0, top: 0 };
 
 			if (elem) {
-				
 				do {
 					result.top += elem.offsetTop;
 					result.left += elem.offsetLeft;

@@ -1,5 +1,7 @@
-﻿module Contained {
+﻿/// <reference path="../reference.ts" />
+module Contained {
 	export class ScrollbarDragScrollHandler implements IScrollHandler {
+
 
 		private _eventName: string;
 		private _elem: HTMLElement;
@@ -7,6 +9,7 @@
 		private _setPositionCallback: SetPositionEvent;
 
 		private _onMouseDownBound: any;
+
 
 		constructor(elem: HTMLElement, $window: ng.IWindowService, setPositionCallback: SetPositionEvent) {
 			this._elem = elem;
