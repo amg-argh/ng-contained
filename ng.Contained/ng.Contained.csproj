@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -36,9 +36,11 @@
     <TypeScriptCompile Include="Scripts\Contained\Plugins\IContainedPlugin.ts" />
     <TypeScriptCompile Include="Scripts\Contained\Plugins\Sticky.ts" />
     <TypeScriptCompile Include="Scripts\Contained\Plugins\Waypoint.ts" />
+    <TypeScriptCompile Include="Scripts\Contained\reference.ts" />
     <TypeScriptCompile Include="Scripts\Contained\ScollerHandlers\IScrollerHandler.ts" />
     <TypeScriptCompile Include="Scripts\Contained\ScollerHandlers\ScrollbarClickScrollHandler.ts" />
     <TypeScriptCompile Include="Scripts\Contained\ScollerHandlers\ScrollbarDragScrollHandler.ts" />
+    <TypeScriptCompile Include="Scripts\Contained\ScollerHandlers\TouchScrollHandler.ts" />
     <TypeScriptCompile Include="Scripts\Contained\ScollerHandlers\WheelScrollHandler.ts" />
     <TypeScriptCompile Include="Scripts\Contained\ScrollbarFactory.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
@@ -51,6 +53,7 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\modernizr\modernizr.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\touch.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
