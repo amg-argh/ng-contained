@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\Contained\Bootstrap.ts" />
+    <TypeScriptCompile Include="Scripts\Contained\ContainedAnchorLink.ts" />
     <TypeScriptCompile Include="Scripts\Contained\ContainedController.ts" />
     <TypeScriptCompile Include="Scripts\Contained\OffsetFactory.ts" />
     <TypeScriptCompile Include="Scripts\Contained\Plugins\IContainedPlugin.ts" />

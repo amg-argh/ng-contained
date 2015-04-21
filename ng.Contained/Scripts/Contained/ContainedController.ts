@@ -10,7 +10,12 @@
 		(args: SetPositionEventArgs): void;
 	}
 
-	export interface IContainedELScope extends ng.IScope {
+    export interface ScrollToElementFunction {
+        (element: HTMLElement, animate: boolean): void;
+    }
+
+    export interface IContainedELScope extends ng.IScope {
+        identifier: string;
 		observes: MutationObserverInit;
 		mutationObserver: MutationObserver;
 
@@ -27,7 +32,9 @@
 		scrollHandlers: IScrollHandler[];
 		plugins: IContainedPlugin[];
 
-		position: number;
+        position: number;
+
+        scrollToElement: ScrollToElementFunction;
 	}
 
 	export class ContainedEl implements ng.IDirective {
@@ -50,7 +57,8 @@
 		}
 
 		link = (scope: IContainedELScope, element: JQuery, attrs: ng.IAttributes) => {
-			var el: HTMLElement = element[0];
+            var el: HTMLElement = element[0];
+            scope.identifier        = "contained";
 			scope.el				= <HTMLDivElement>el;
 			scope.position			= 0;
 			scope.scrollbarEl		= <HTMLDivElement>el.querySelector(".contained-scrollbar");
@@ -58,7 +66,8 @@
 			scope.wrapperEl			= <HTMLDivElement>el.querySelector(".contained-wrapped");
 			scope.contentEl			= <HTMLDivElement>el.querySelector(".contained-container");
 
-			scope.el.classList.add("contained-main");
+            scope.el.classList.add("contained-main");
+            scope.contentEl.style.top = "0px";
 
 			scope.observes = {childList: true, attributes: true, characterData: true, subtree: true};
 			scope.mutationObserver = new MutationObserver((arr: MutationRecord[], observer: MutationObserver) => {
@@ -92,17 +101,20 @@
 			});
 
 			scope.$on("contained-set-position", (e:any, position: number, animate: boolean) => {
-				this.setAbsolutePagePosition(scope, position);
-			});
+				this.setAbsolutePagePosition(scope, position, animate);
+            });
 
-			scope.$on("contained-scroll-to-element", (e: any, element: HTMLElement, animate: boolean) => {
-				var offset: Offset = this._offsetFactory.getOffset(element);
-				var topCompensation: number = this.getTopCompensation(scope);
+            scope.scrollToElement = (element: HTMLElement, animate: boolean) => {
+                var offset: Offset = this._offsetFactory.getOffset(element);
+                var topCompensation: number = this.getTopCompensation(scope);
 
-				var position: number = 0 - (offset.top - scope.position) + topCompensation;
+                var position: number = 0 - (offset.top - scope.position) + topCompensation;
+                
+                this.setAbsolutePagePosition(scope, position, animate);                
+            };
 
-
-				this.setAbsolutePagePosition(scope, position);
+            scope.$on("contained-scroll-to-element",(e: any, element: HTMLElement, animate: boolean) => {
+                scope.scrollToElement(element, animate);				
 			});
 
 			//now that we're all configed runnnnnnnnnn
@@ -132,7 +144,7 @@
 
 		setPagePosition = (scope: IContainedELScope, args: SetPositionEventArgs) => {
 			if (args.absolute !== undefined) {
-				this.setAbsolutePagePosition(scope, args.absolute);
+				this.setAbsolutePagePosition(scope, args.absolute, false);
 			}
 			else if (args.relative !== undefined) {
 				this.setRelativePagePosition(scope, args.relative);
@@ -147,7 +159,7 @@
 
 		setRelativePagePosition = (scope: IContainedELScope, delta: number) => {
 			var tempPosition = scope.position + delta;
-			this.setAbsolutePagePosition(scope, tempPosition);			
+			this.setAbsolutePagePosition(scope, tempPosition, false);
 		}
 
 		setRelativeToBeRatioPagePosition = (scope: IContainedELScope, delta: number) => {
@@ -156,10 +168,10 @@
 
 			var tempPosition: number = scope.position + deltaPx;
 
-			this.setAbsolutePagePosition(scope, tempPosition);
+			this.setAbsolutePagePosition(scope, tempPosition, false);
 		}
 
-		setAbsolutePagePosition = (scope: IContainedELScope, position: number) => {
+		setAbsolutePagePosition = (scope: IContainedELScope, position: number, animate:boolean) => {
 			var tempPosition: number = position;
 
 			if (scope.contentHeight <= scope.wrapperHeight) {
@@ -176,7 +188,7 @@
 				return;
 
 			scope.position = tempPosition;
-			this.updateContainerTransform(scope);
+			this.updateContainerTransform(scope, animate);
 
 			var totalCompensation: number = this.getTopCompensation(scope);
 
@@ -194,24 +206,47 @@
 			return totalCompensation;
 		}
 
-		updateContainerTransform(scope: IContainedELScope) {
-			scope.mutationObserver.disconnect();
+		updateContainerTransform(scope: IContainedELScope, animate: boolean) {
+			
+            var transitionEndEvent = () => {
+                scope.contentEl.style.transition = "";
+                scope.scrollbarHandleEl.style.transition = "";
+                scope.contentEl.removeEventListener("transitionend", transitionEndEvent);
+                finalize();
+            };
+            
+            var init = () => {
+                scope.mutationObserver.disconnect();
+                if (animate) {
+                    scope.contentEl.style.transition = "top 250ms ease-out";
+                    scope.scrollbarHandleEl.style.transition = "all 250ms ease-out";
+                    scope.contentEl.addEventListener("transitionend", transitionEndEvent);
+                }
+            }
 
-			//var translation = "translate3d(0, " + scope.position + "px, 0)";
-			//scope.contentEl.style.transform = translation;
-			scope.contentEl.style.top = scope.position + "px";
+            var action = () => {
+                scope.contentEl.style.top = scope.position + "px";
 
-			this._scrollbarFactory.renderScrollbar(
-				scope.scrollbarHandleEl,
-				scope.wrapperHeight,
-				scope.contentHeight,
-				scope.position
-				);
+                this._scrollbarFactory.renderScrollbar(
+                    scope.scrollbarHandleEl,
+                    scope.wrapperHeight,
+                    scope.contentHeight,
+                    scope.position
+                );
+            }
 
+            var finalize = () => {
+                scope.mutationObserver.observe(scope.el, scope.observes);
+            }
 
-			scope.mutationObserver.observe(scope.el, scope.observes);
+            init();
+            action();
+            if (!animate) {
+                finalize();
+            }    			
 		}
-	}
+
+    }
 }
 
 contained.directive(Contained.ContainedEl.DirectiveId, ['$window', 'containedScrollbarFactory', 'containedOffsetFactory', ($window, containedScrollbarFactory, offsetFactory) => {
