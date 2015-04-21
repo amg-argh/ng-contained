@@ -1,6 +1,4 @@
-﻿/// <reference path="../reference.ts" />
-
-module Contained {
+﻿module Contained {
 
 	export class StickyElement {
 		public element: HTMLElement;

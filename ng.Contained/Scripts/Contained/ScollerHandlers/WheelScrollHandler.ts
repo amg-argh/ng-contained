@@ -1,5 +1,4 @@
-﻿/// <reference path="../reference.ts" />
-module Contained {
+﻿module Contained {
 	export class WheelScrollHandler implements IScrollHandler {
 
 
