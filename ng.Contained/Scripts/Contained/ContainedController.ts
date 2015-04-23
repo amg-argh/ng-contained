@@ -94,6 +94,7 @@
 			scope.plugins = [];
 			scope.plugins.push(new Sticky(scope.contentEl, this._offsetFactory, scope));
 			scope.plugins.push(new Waypoint(scope.contentEl, this._offsetFactory, scope));
+			scope.plugins.push(new DefinedCompensation(attrs));
 
 			scope.$on("$destroy", () => {
 				scope.mutationObserver.disconnect();
